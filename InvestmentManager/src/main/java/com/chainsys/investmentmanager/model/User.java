@@ -8,7 +8,10 @@ public class User {
 	    private String contact;
 
 	   
-	    public int getUserid() {
+	    public User() {
+		}
+
+		public int getUserid() {
 	        return userid;
 	    }
 
