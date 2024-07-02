@@ -1,5 +1,8 @@
 package com.chainsys.investmentmanager.model;
 
+
+
+
 public class User {
 	 private int userid;
 	    private String username;

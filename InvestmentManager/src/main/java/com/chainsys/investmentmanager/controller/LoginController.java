@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.chainsys.investmentmanager.dao.UserDAO;
 import com.chainsys.investmentmanager.dao.UserImpl;
 import com.chainsys.investmentmanager.model.User;
 
@@ -17,7 +18,7 @@ import jakarta.servlet.http.HttpSession;
 public class LoginController {
 
     @Autowired
-    UserImpl data;
+    UserDAO userDAO;
 
     @GetMapping("/login")
     public String showLoginPage() {
@@ -26,7 +27,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(@RequestParam("email") String email, @RequestParam("password") String password, HttpSession session, Model model) {
-        User user = data.findByEmail(email);
+        User user = userDAO.findByEmail(email);
         if (user != null && user.getPassword().equals(password)) {
             session.setAttribute("username", user.getUsername());
             System.out.println("logged in");

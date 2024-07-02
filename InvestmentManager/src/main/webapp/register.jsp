@@ -42,7 +42,7 @@
 
             <section class="register-section">
                 <div class="container">
-                    <form class="register-form" method="post" action="/login">
+                    <form class="register-form" method="post" action="register">
                         <div class="form-group">
                             <label for="username">Username:</label>
                             <input type="text" id="username" name="username" required>

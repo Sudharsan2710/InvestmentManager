@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.chainsys.investmentmanager.dao.UserDAO;
 import com.chainsys.investmentmanager.dao.UserImpl;
 import com.chainsys.investmentmanager.model.User;
 
@@ -18,7 +19,7 @@ import java.util.List;
 public class UserController {
 	
 		@Autowired
-		UserImpl data;
+		UserDAO userDAO;
 		
 		
 		@RequestMapping("/")
@@ -33,7 +34,8 @@ public class UserController {
 				u.setPassword(password);
 				u.setEmail(email);
 				u.setContact(contact);
-				data.register(u);
+				
+				userDAO.register(u);
 				 model.addAttribute("message", "User registered successfully");
 				return "login.jsp";
 			}
