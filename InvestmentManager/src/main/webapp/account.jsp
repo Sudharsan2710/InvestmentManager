@@ -12,7 +12,7 @@
 </head>
 <body class="light">
 <%
-   
+	HttpSession session1 = request.getSession(false);
     User currentUser = (User) session.getAttribute("currentUser");
 
     if (currentUser == null) {

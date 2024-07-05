@@ -11,8 +11,11 @@ public class User {
 	    private String contact;
 
 	   
-	    public User() {
-		}
+	
+
+		public User() {
+  
+  }
 
 		public int getUserid() {
 	        return userid;

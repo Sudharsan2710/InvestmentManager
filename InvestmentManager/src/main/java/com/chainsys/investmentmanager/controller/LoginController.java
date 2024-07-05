@@ -29,7 +29,8 @@ public class LoginController {
     public String login(@RequestParam("email") String email, @RequestParam("password") String password, HttpSession session, Model model) {
         User user = userDAO.findByEmail(email);
         if (user != null && user.getPassword().equals(password)) {
-            session.setAttribute("username", user.getUsername());
+        	session.setAttribute("username",user.getUsername());
+            session.setAttribute("currentUser", user);
             System.out.println("logged in");
             return "home.jsp";
         } else {

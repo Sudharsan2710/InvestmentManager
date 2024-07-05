@@ -6,6 +6,10 @@ public class Gold {
 	private double investmentAmountGold;
 	private double gramsPurchased;
 
+	
+	public Gold() {
+		
+	}
    
     public int getUserId() {
 		return userId;

@@ -1,6 +1,6 @@
 package com.chainsys.investmentmanager.model;
 
-public class BankAccountDetails {
+public class BankAccount {
 	  	private int userId;
 	    private String bankname;
 	    private String pan;
@@ -9,7 +9,7 @@ public class BankAccountDetails {
 	    private double amountinvesting;
 
 	  
-	    public BankAccountDetails() {
+	    public BankAccount() {
 	   
 	    }
 	    

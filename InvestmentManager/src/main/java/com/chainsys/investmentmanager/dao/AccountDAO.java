@@ -1,12 +1,15 @@
 package com.chainsys.investmentmanager.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
-import com.chainsys.investmentmanager.model.BankAccountDetails;
+import com.chainsys.investmentmanager.model.BankAccount;
 
 @Repository
 public interface AccountDAO {
 	
-	public void addAccount (BankAccountDetails details);
+	public void addAccount (BankAccount details);
+	public   List<BankAccount> findByUserId(int userId);
 
 }

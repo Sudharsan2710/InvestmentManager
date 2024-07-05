@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.chainsys.investmentmanager.dao.AccountDAO;
-import com.chainsys.investmentmanager.model.BankAccountDetails;
+import com.chainsys.investmentmanager.model.BankAccount;
+import com.chainsys.investmentmanager.model.User;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class BankAccountController {
@@ -17,15 +20,22 @@ public class BankAccountController {
 	AccountDAO accountDAO;
 	
 	
-	@PostMapping("")
-		public String acc(@RequestParam("userId") int userId , @RequestParam("bankname") String bankname , @RequestParam("pan") String pan , @RequestParam("acNum") String acNum , @RequestParam("accountType") String accountType , @RequestParam("amountinvesting") double amountinvesting , Model model ) {
-		BankAccountDetails details = new BankAccountDetails();
-		details.setUserId(userId);
-		details.setBankname(bankname);
-		details.setPan(pan);
-		details.setAcNum(acNum);
+	@PostMapping("/BankAccount")
+		public String acc( @RequestParam("bankName") String bankName , @RequestParam("userPan") String userPan , @RequestParam("accountNumber") String accountNumber , @RequestParam("accountType") String accountType , @RequestParam("amountInvesting") double amountInvesting , HttpSession session, Model model ) {
+	
+		  User currentUser = (User) session.getAttribute("currentUser");
+	        if (currentUser == null) {
+	            return "login.jsp";
+	        }
+		
+		
+		BankAccount details = new BankAccount();
+		details.setUserId(currentUser.getUserid());
+		details.setBankname(bankName);
+		details.setPan(userPan);
+		details.setAcNum(accountNumber);
 		details.setAccountType(accountType);
-		details.setAmountInvesting(amountinvesting);
+		details.setAmountInvesting(amountInvesting);
 		
 		accountDAO.addAccount(details);
 		 model.addAttribute("message", "Account added successfully");
