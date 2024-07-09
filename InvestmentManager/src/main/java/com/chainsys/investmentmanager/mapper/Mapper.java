@@ -2,6 +2,7 @@ package com.chainsys.investmentmanager.mapper;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import com.chainsys.investmentmanager.model.Gold;
 import com.chainsys.investmentmanager.model.User;
 
 import java.sql.ResultSet;
@@ -21,5 +22,7 @@ public class Mapper implements RowMapper<User> {
 		return u;
 
 	}
-
+	
+	
+	
 }

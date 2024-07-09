@@ -26,7 +26,7 @@ public class MutualFundController {
             @RequestParam(value = "sipContribution", required = false) Double sipContribution,
             @RequestParam("holdingPeriod") int holdingPeriod,
             @RequestParam("mutualFundName") String mutualFundName,
-            HttpSession session,Model model) {
+            HttpSession session,RedirectAttributes redirectAttributes) {
 
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -43,14 +43,26 @@ public class MutualFundController {
         	mutualFundInvestment .setAmountInvestedOnFund(principal);
         	mutualFundInvestment.setCategoryName(investmentType);
         } else if ("sip".equalsIgnoreCase(investmentType)) {
-        	mutualFundInvestment.setCategoryName(investmentType);
-            mutualFundInvestment.setCategoryName("sip");
+        	mutualFundInvestment.setAmountInvestedOnFund(sipContribution);
+            mutualFundInvestment.setCategoryName(investmentType);
         }
 
-        mutualFundInvestmentDAO.addFund(mutualFundInvestment);
+        boolean isFundAdded =  mutualFundInvestmentDAO.addFund(mutualFundInvestment);
+   
+
+        if (isFundAdded) {
+            redirectAttributes.addAttribute("status", "success");
+            redirectAttributes.addAttribute("message", "Investment Successful!");
+        } else {
+            redirectAttributes.addAttribute("status", "failure");
+            redirectAttributes.addAttribute("message", "Failed to invest. Please try again.");
+        }
+
+
+        return "redirect:/home.jsp";
        
         
-        return "redirect:/home.jsp?status=success";
+      
     }
 
 }

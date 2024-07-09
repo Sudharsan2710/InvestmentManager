@@ -6,6 +6,8 @@
 <meta charset="ISO-8859-1">
 <title>Motilal Oswal MidCap Fund </title>
 <link rel="stylesheet" href="style.css" />
+<link href=" https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css " rel="stylesheet">
+
 <style>
     /* CSS styling */
     :root {
@@ -216,7 +218,8 @@
                     Motilal Oswal Mid Cap Fund
                     </h1>
                     <form class="mutual-fund-form" id="investment-form" action="fund" method="post">
-                    <input type="hidden" id="status" value="<%= request.getAttribute("status") %>">
+                    <input type="hidden" id="status" value="${param.status}">
+                    <input type="hidden" id="message" value="${param.message}">
                     <input type="hidden" value="Motilal Oswal Mid CapFund " name="mutualFundName">
     				<input type="hidden" name="dateOfInvestment" id="dateOfInvestment" />			
                         <label>Select Investment Type:</label>
@@ -246,8 +249,10 @@
             </section>
         </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   
     <script>
         let chart; 
         function showForm(type) {
@@ -357,24 +362,31 @@
                 }
             });
         }
-        function showSuccessMessage() {
+     
+        document.addEventListener('DOMContentLoaded', function() {
+            const status = '${status}';
+            const message = '${message}';
+            if (status && message) {
+                showMessage(status, message);
+            }
+        });
+
+        function showMessage(status, message) {
             Swal.fire({
-                icon: 'success',
-                title: 'Investment Successful',
-                text: 'Your investment has been successfully made!'
+                icon: status === 'success' ? 'success' : 'error',
+                title: message
             });
         }
-
-        function checkStatus() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('status') === 'success') {
-                showSuccessMessage();
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', checkStatus);
         
-        
+        Swal.fire({
+        	  position: "center",
+        	  icon: "success",
+        	  title: "Your Amount has Successfully invested",
+        	  showConfirmButton: false,
+        	  timer: 2000
+        	});
     </script>
+        
+   
 </body>
 </html>

@@ -1,5 +1,7 @@
 package com.chainsys.investmentmanager.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.chainsys.investmentmanager.model.Gold;
@@ -8,5 +10,6 @@ import com.chainsys.investmentmanager.model.Gold;
 public  interface GoldInvestmentDAO  {
 	
 	public void addGold(Gold gold);
+	public List<Gold> getGoldInvestmentsByUserId(int userId);
 			
 }
