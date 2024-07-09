@@ -191,7 +191,9 @@
                     <h1 class="mutual-fund-title">
                     ICIC Prudential Mid Cap Fund</h1>
                      <img src="./img/icici.png" alt="Company Logo" /> 
-                    <form class="mutual-fund-form" id="investment-form">
+                    <form class="mutual-fund-form" id="investment-form" action="fund" method="post">
+                    <input type="hidden" value="ICIC Prudential Fund " name="mutualFundName">
+    				<input type="hidden" name="dateOfInvestment" id="dateOfInvestment" />
                         <label>Select Investment Type:</label>
                         <select name="investmentType" id="investmentType" onchange="showForm(this.value)">
                             <option value="">Select</option>
@@ -213,13 +215,15 @@
                         <input type="number" name="holdingPeriod" id="holdingPeriod" required>
                         <br><br>
                         <button type="button" onclick="calculateInvestment()">Calculate</button>
+                        <button type="submit" class="invest-now-button" id="invest-now-button" style="display:none;">Invest Now</button>
                     </form>
-                     <button class="invest-now-button" id="invest-now-button" onclick="investNow()">Invest Now</button>
+                    
                 </div>
             </section>
         </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         let chart; 
         function showForm(type) {
@@ -328,10 +332,24 @@
                 }
             });
         }
- function investNow() {
-            
-            window.location.href = 'InvestmentServlet';
+        
+        function showSuccessMessage() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Investment Successful',
+                text: 'Your investment has been successfully made!'
+            });
         }
+
+        function checkStatus() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('status') === 'success') {
+                showSuccessMessage();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', checkStatus);
+
     </script>
 </body>
 </html>

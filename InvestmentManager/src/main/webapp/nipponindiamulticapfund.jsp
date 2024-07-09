@@ -218,7 +218,8 @@
                         <img src="./img/nippon.png" alt="Company Logo" /> <!-- Add the correct path to your logo -->
                         Nippon India Multi Cap Fund
                     </h1>
-                    <form class="mutual-fund-form" id="investment-form">
+                    <form class="mutual-fund-form" id="investment-form" action="fund" method="post" >
+                     <input type="hidden" value="Nippon India Multi Cap Fund"  name="mutualFundName">
                         <label>Select Investment Type:</label>
                         <select name="investmentType" id="investmentType" onchange="showForm(this.value)">
                             <option value="">Select</option>
@@ -228,36 +229,38 @@
                         <br><br>
                         <div id="mutual-fund-lumpsum-form" style="display:none;">
                             <label>Principal Amount:</label>
-                            <input type="number" name="principal" id="principal" step="0.01">
+                            <input type="number" name="amount" id="principal" step="0.01">
                         </div>
-                        <div id="mutual-fund-sip-form" style="display:none;">
+                       <div id="mutual-fund-sip-form" style="display:none;">
                             <label>SIP Contribution per period:</label>
-                            <input type="number" name="sipContribution" id="sipContribution" step="0.01">
-                        </div>
+                            <input type="number" name="samount" id="sipContribution" step="0.01">
+                        </div> 
                         <label>Estimated Rate of Return (%):</label>
                         <input type="number" name="rateOfReturn" id="rateOfReturn" value="12.00" step="0.01" readonly>
                         <label>Holding Period (in months):</label>
                         <input type="number" name="holdingPeriod" id="holdingPeriod" required>
                         <br><br>
                         <button type="button" onclick="calculateInvestment()">Calculate</button>
+                        <button type="submit" class="invest-now-button" id="invest-now-button" onclick="investNow()" >Invest Now</button>
+                        
                     </form>
-                    <button class="invest-now-button" id="invest-now-button" onclick="investNow()">Invest Now</button>
                 </div>
             </section>
         </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         let chart; 
         function showForm(type) {
-            // Hide both forms initially
+           
             document.getElementById('mutual-fund-lumpsum-form').style.display = 'none';
             document.getElementById('mutual-fund-sip-form').style.display = 'none';
-            // Reset input fields
+         
             document.getElementById('principal').value = '';
             document.getElementById('sipContribution').value = '';
             document.getElementById('holdingPeriod').value = '';
-            // Show selected form
+       
             if (type) {
                 document.getElementById('mutual-fund-' + type + '-form').style.display = 'block';
             }
@@ -356,11 +359,24 @@
                 }
             });
         }
-
-        function investNow() {
-            // Redirect to the servlet page
-            window.location.href = 'InvestmentServlet';
+        function showSuccessMessage() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Investment Successful',
+                text: 'Your investment has been successfully made!'
+            });
         }
+
+        function checkStatus() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('status') === 'success') {
+                showSuccessMessage();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', checkStatus);
+
+       
     </script>
 </body>
 </html>

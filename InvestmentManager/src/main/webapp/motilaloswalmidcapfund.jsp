@@ -215,8 +215,9 @@
                      <img src="./img/motilal-oswal.png" alt="Company Logo" /> 
                     Motilal Oswal Mid Cap Fund
                     </h1>
-                    <form class="mutual-fund-form" id="investment-form" action="/invest" method="post">
-                   
+                    <form class="mutual-fund-form" id="investment-form" action="fund" method="post">
+                    <input type="hidden" id="status" value="<%= request.getAttribute("status") %>">
+                    <input type="hidden" value="Motilal Oswal Mid CapFund " name="mutualFundName">
     				<input type="hidden" name="dateOfInvestment" id="dateOfInvestment" />			
                         <label>Select Investment Type:</label>
                         <select name="investmentType" id="investmentType" onchange="showForm(this.value)">
@@ -239,25 +240,25 @@
                         <input type="number" name="holdingPeriod" id="holdingPeriod" required>
                         <br><br>
                         <button type="button" onclick="calculateInvestment()">Calculate</button>
+                        <button type="submit" class="invest-now-button" id="invest-now-button" style="display:none;">Invest Now</button>
                     </form>
-                   
-                    <button class="invest-now-button" id="invest-now-button" onclick="investNow()">Invest Now</button>
                 </div>
             </section>
         </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         let chart; 
         function showForm(type) {
-            // Hide both forms initially
+          
             document.getElementById('mutual-fund-lumpsum-form').style.display = 'none';
             document.getElementById('mutual-fund-sip-form').style.display = 'none';
-            // Reset input fields
+           
             document.getElementById('principal').value = '';
             document.getElementById('sipContribution').value = '';
             document.getElementById('holdingPeriod').value = '';
-            // Show selected form
+          
             if (type) {
                 document.getElementById('mutual-fund-' + type + '-form').style.display = 'block';
             }
@@ -356,11 +357,24 @@
                 }
             });
         }
-        
-        function investNow() {
-            
-            window.location.href = 'Investment';
+        function showSuccessMessage() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Investment Successful',
+                text: 'Your investment has been successfully made!'
+            });
         }
+
+        function checkStatus() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('status') === 'success') {
+                showSuccessMessage();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', checkStatus);
+        
+        
     </script>
 </body>
 </html>
