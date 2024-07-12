@@ -3,6 +3,9 @@
 <%@ page import="jakarta.servlet.http.HttpSession"%>
 <%@ page import="com.chainsys.investmentmanager.model.Gold"%>
 <%@ page import="com.chainsys.investmentmanager.model.User"%>
+<%@ page import="com.chainsys.investmentmanager.model.BankAccount"%>
+<%@ page import="com.chainsys.investmentmanager.dao.AccountDAO"%>
+<%@ page import="com.chainsys.investmentmanager.dao.AccountImpl"%>
 <%@ page import="com.chainsys.investmentmanager.model.MutualFundInvestment"%>
 <%@ page import="com.chainsys.investmentmanager.dao.MutualFundInvestmentDAO"%>
 <%@ page import="com.chainsys.investmentmanager.dao.MutualFundInvestmentImpl"%>
@@ -10,6 +13,7 @@
 <%@ page import="com.chainsys.investmentmanager.dao.GoldImpl"%>
 <%@ page import="org.springframework.context.ApplicationContext"%>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,152 +21,87 @@
 <title>Portfolio Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css">
+<link rel="stylesheet" href="style.css" >
 <style>
-/* CSS styling */
-:root {
-    --mainColor: #64bcf4;
-    --hoverColor: #5bacdf;
-}
-
-.light {
-    --backgroundColor: #f1f8fc;
-    --darkOne: #312f3a;
-    --darkTwo: #45424b;
-    --lightOne: #919191;
-    --lightTwo: #aaa;
-}
-
-.dark {
-    --backgroundColor: #192e3a;
-    --darkOne: #f3f3f3;
-    --darkTwo: #fff;
-    --lightOne: #ccc;
-    --lightTwo: #e7e3e3;
-}
-
-*,
-*::before,
-*::after {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: "Poppins", sans-serif;
-}
-
-.big-wrapper {
-    padding: 1.7rem 0 2rem;
-    width: 100%;
-    min-height: 100vh;
-    background-color: var(--backgroundColor);
-}
-
-header {
-    width: 100%;
-}
-
-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-
-.logo img {
-    width: 40px;
-    margin-right: 0.6rem;
-}
-
-.logo h3 {
-    color: var(--mainColor);
-    font-size: 1.55rem;
-    font-weight: 700;
-}
-
-.links ul {
-    list-style: none;
-    display: flex;
-}
-
-.links ul li {
-    margin: 0 1rem;
-}
-
-.links ul li a {
-    text-decoration: none;
-    color: var(--darkOne);
-    font-weight: 500;
-}
-
-.btn {
-    background-color: var(--mainColor);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    text-decoration: none;
-}
-
-.main-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-.chart-container, .table-container {
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    margin-bottom: 2rem;
-    width: 80%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.chart-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: Verdana, Helvetica, Arial, sans-serif;
-}
-
-table th, table td {
-    padding: 8px;
-    text-align: left;
-}
-
-table th {
-    background-color: #f2f2f2;
-}
-
-table tbody td {
-    border: none;
-}
-
-@media (max-width: 768px) {
+   
     .main-content {
-        flex-direction: column;
+        width: 90%;
+        margin: 20px auto;
+    }
+
+    .chart-container {
+        display: flex;
+        justify-content: center;
         align-items: center;
+        background-color: #000;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        position: relative;
+        height: 360px; 
     }
-    .chart-container, .table-container {
+
+    .chart-container canvas {
+        width: 300px; 
+        height: 300px; 
+    }
+
+    .text-container {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: white;
+        text-align: left;
+    }
+
+    .table-container {
+        width: 48%;
+        margin: 10px 1%;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .table-container h3 {
+        text-align: center;
+    }
+
+    .table-container table {
         width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0;
     }
-}
+
+    .table-container table th,
+    .table-container table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+
+    .table-container table thead {
+        background-color: #64bcf4;
+        color: #fff;
+    }
+
+    .table-container:nth-child(2) {
+        margin-right: 0; 
+    }
+
+    @media (max-width: 768px) {
+        .table-container {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .chart-container canvas {
+            width: 100%;
+        }
+    }
+
+    .chartjs-render-monitor .doughnut-label {
+        fill: #fff !important;
+    }
 </style>
 </head>
 <body>
@@ -176,10 +115,14 @@ table tbody td {
     }
 
     ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
+    AccountDAO accountDAO = context.getBean(AccountDAO.class);
+    double totalAmountInBankAccount= accountDAO.getTotalAmountInvestedByUserId(currentUser.getUserid());
     GoldInvestmentDAO goldInvestmentDAO = context.getBean(GoldInvestmentDAO.class);
     MutualFundInvestmentDAO mutualFundInvestmentDAO = context.getBean(MutualFundInvestmentDAO.class);
     List<Gold> goldInvestments = goldInvestmentDAO.getGoldInvestmentsByUserId(currentUser.getUserid());
     List<MutualFundInvestment> mutualInvestments = mutualFundInvestmentDAO.getMutualFundInvestmentsByUserId(currentUser.getUserid());
+    double totalInvestedInGold = goldInvestmentDAO.getTotalGoldAmountInvested(currentUser.getUserid());
+    double totalInvestedInMutualFunds=mutualFundInvestmentDAO.getTotalMutualAmountInvestedByUserId(currentUser.getUserid());
 %>
 
 <main>
@@ -206,6 +149,12 @@ table tbody td {
         </header>
         <main class="main-content">
             <div class="chart-container">
+                <div class="text-container">
+                	<h4>Total Amount Invested:<%=request.getAttribute("totalAmountInBankAccount") %></h4>
+                	 <h4>Amount Invested on Gold ETF & MutualFund:<%=request.getAttribute("totalInvested") %></h4>
+                    <h4>Balance Amount:<%=request.getAttribute("remainingBalance") %></h4>
+                   
+                </div>
                 <canvas id="allocationChart"></canvas>
             </div>
             <div class="table-container">
@@ -271,10 +220,20 @@ table tbody td {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#fff'
+                        }
+                    }
+                }
             }
         });
     });
+    
+   
+ 
 </script>
 
 </body>

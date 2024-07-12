@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.chainsys.investmentmanager.dao.AccountDAO;
+import  com.chainsys.investmentmanager.dao.AccountImpl;
 import com.chainsys.investmentmanager.dao.GoldInvestmentDAO;
 import com.chainsys.investmentmanager.model.Gold;
 import com.chainsys.investmentmanager.model.User;
@@ -22,13 +24,24 @@ public class GoldController {
 	@Autowired
 	GoldInvestmentDAO goldinvestmentDAO;
 	
+	@Autowired
+	AccountDAO accountDAO;
+	
 	@PostMapping("/goldpurchase")
 		public String gol(@RequestParam("gold_rate")double gold_rate, @RequestParam("investment_amount_gold") double investment_amount_gold , @RequestParam("grams_purchased") double grams_purchased , HttpSession session ,Model model  ) {
 		
 		User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
             return "login.jsp";
-}
+}	
+      
+        
+        double totalAmountInBankAccount = accountDAO.getTotalAmountInvestedByUserId(currentUser.getUserid());
+        if (investment_amount_gold > totalAmountInBankAccount || totalAmountInBankAccount <= 0) {
+            model.addAttribute("error", "Amount in bank is not enough. Please add money.");
+            return "goldcalculation.jsp";
+        }
+       
         
         Gold gold = new Gold();
         gold.setUserId(currentUser.getUserid());
@@ -41,12 +54,13 @@ public class GoldController {
         model.addAttribute("message","gold added successfully");
         return "home.jsp";
 }
-	  @GetMapping("/portfolio")
 	    public String viewPortfolio(HttpSession session, Model model) {
 	        User currentUser = (User) session.getAttribute("currentUser");
 	        if (currentUser == null) {
 	            return "login.jsp";
 	        }
+	        
+	        
 
 	        List<Gold> goldInvestments = goldinvestmentDAO.getGoldInvestmentsByUserId(currentUser.getUserid());
 	        model.addAttribute("goldInvestments", goldInvestments);

@@ -54,12 +54,6 @@
 							<li><a href="account.jsp">Bank Account</a></li>
 							<li><a href="#"><i class="fas fa-user"></i> <%=session.getAttribute("username")%></a></li>
 							<li><a href="login.jsp" class="btn">Sign out</a></li>
-							
-							
-							
-							
-							
-							
 							<%
 							} else {
 							%>
@@ -113,8 +107,8 @@
                     </div>
                     
                     <button type="submit" class="btn">Invest</button>
-                     <% if (request.getParameter("error") != null) { %>
-                        <p style="color:red;">Failed to link bank account. Please try again.</p>
+                     <% if (request.getAttribute("error") != null) { %>
+                        <p style="color:red;"><%= request.getAttribute("error") %></p>
                     <% } %>
                 </form>
             </div>

@@ -244,6 +244,9 @@
                         <br><br>
                         <button type="button" onclick="calculateInvestment()">Calculate</button>
                         <button type="submit" class="invest-now-button" id="invest-now-button" style="display:none;">Invest Now</button>
+                        <% if (request.getAttribute("error") != null) { %>
+                        <p style="color:red;"><%= request.getAttribute("error") %></p>
+                    <% } %>
                     </form>
                 </div>
             </section>

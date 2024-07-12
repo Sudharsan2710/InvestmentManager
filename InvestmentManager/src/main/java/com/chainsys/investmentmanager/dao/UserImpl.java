@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import com.chainsys.investmentmanager.mapper.Mapper;
+import com.chainsys.investmentmanager.mapper.UserMapper;
 import com.chainsys.investmentmanager.model.User;
 
 @Repository
@@ -27,7 +27,7 @@ public class UserImpl  implements UserDAO{
 	@Override
 	public User findByEmail(String email) {
         String query = "SELECT * FROM Users WHERE email = ?";
-        List<User> users = jdbcTemplate.query(query, new Mapper(), email);
+        List<User> users = jdbcTemplate.query(query, new UserMapper(), email);
         if (users.isEmpty()) {
             return null;
         } else {

@@ -12,6 +12,6 @@ public interface MutualFundInvestmentDAO {
 	
 	public boolean addFund(MutualFundInvestment mutualfund);
 	public List<MutualFundInvestment> getMutualFundInvestmentsByUserId(int userId);
-	
+	public double getTotalMutualAmountInvestedByUserId(int userId);
 
 }

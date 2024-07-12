@@ -32,7 +32,7 @@
 										href="goldcalculation.jsp">Gold</a>
 								</div></li>
 							<li><a href="account.jsp">Bank Account</a></li>
-							<li><a href="portfolio.jsp"><i class="fas fa-user"></i> <%=session.getAttribute("username")%></a></li>
+							<li><a href="/portfolio"><i class="fas fa-user"></i> <%=session.getAttribute("username")%></a></li>
 							<li><a href="logout" class="btn">Sign out</a></li>
 							<%
 							} else {

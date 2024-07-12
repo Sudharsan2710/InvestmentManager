@@ -8,7 +8,7 @@ import com.chainsys.investmentmanager.model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Mapper implements RowMapper<User> {
+public class UserMapper implements RowMapper<User> {
 
 	@Override
 	public User mapRow(ResultSet rs, int rowNum) throws SQLException {

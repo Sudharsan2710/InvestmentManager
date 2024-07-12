@@ -42,6 +42,12 @@ public class AccountImpl implements AccountDAO {
 	        };
 	        return jdbcTemplate.query(sql, rowMapper, userId);
 	    }
+	 
+	 @Override
+	 public  double getTotalAmountInvestedByUserId(int userId) {
+		 String sql = "SELECT SUM(amountinvesting) FROM Bank_Accounts WHERE user_id = ?";
+		 return jdbcTemplate.queryForObject(sql, Double.class,new Object[] {userId});
+	 }
 	
 	
 }

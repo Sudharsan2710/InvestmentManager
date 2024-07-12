@@ -11,5 +11,8 @@ public interface AccountDAO {
 	
 	public void addAccount (BankAccount details);
 	public   List<BankAccount> findByUserId(int userId);
+	 public   double getTotalAmountInvestedByUserId(int userId);
+	
+	
 
 }

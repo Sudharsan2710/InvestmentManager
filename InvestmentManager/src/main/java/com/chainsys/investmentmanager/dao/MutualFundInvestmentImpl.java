@@ -33,6 +33,12 @@ public class MutualFundInvestmentImpl implements MutualFundInvestmentDAO{
 	        String query = "SELECT * FROM Mutual_Fund_Investments WHERE user_id = ?";
 	        return jdbcTemplate.query(query, new MutualFundMapper(),  userId  );
 	    }
+	
+	@Override 
+	public double getTotalMutualAmountInvestedByUserId(int userId) {
+		String query = "SELECT SUM(amount) FROM Mutual_Fund_Investments WHERE user_id = ?";
+		 return jdbcTemplate.queryForObject(query,  Double.class,new Object[]{userId});
+	}
 
 
 

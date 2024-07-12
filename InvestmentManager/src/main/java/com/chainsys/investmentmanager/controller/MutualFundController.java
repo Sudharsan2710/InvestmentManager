@@ -19,14 +19,17 @@ public class MutualFundController {
 
     @Autowired
     private MutualFundInvestmentDAO mutualFundInvestmentDAO; 
-
+    
+   
+    @Autowired
+    private AccountDAO accountDAO;
     @PostMapping("/fund")
     public String mf(@RequestParam("investmentType") String investmentType,
             @RequestParam(value = "principal", required = false) Double principal,
             @RequestParam(value = "sipContribution", required = false) Double sipContribution,
             @RequestParam("holdingPeriod") int holdingPeriod,
             @RequestParam("mutualFundName") String mutualFundName,
-            HttpSession session,RedirectAttributes redirectAttributes) {
+            HttpSession session,Model model) {
 
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -46,19 +49,23 @@ public class MutualFundController {
         	mutualFundInvestment.setAmountInvestedOnFund(sipContribution);
             mutualFundInvestment.setCategoryName(investmentType);
         }
-
-        boolean isFundAdded =  mutualFundInvestmentDAO.addFund(mutualFundInvestment);
-   
-
-        if (isFundAdded) {
-            redirectAttributes.addAttribute("status", "success");
-            redirectAttributes.addAttribute("message", "Investment Successful!");
-        } else {
-            redirectAttributes.addAttribute("status", "failure");
-            redirectAttributes.addAttribute("message", "Failed to invest. Please try again.");
+        
+        double totalInvestedInMutualFunds=mutualFundInvestmentDAO.getTotalMutualAmountInvestedByUserId(currentUser.getUserid()); 
+        double totalAmountInBankAccount= accountDAO.getTotalAmountInvestedByUserId(currentUser.getUserid());
+        double amountToInvest = "lumpsum".equalsIgnoreCase(investmentType) ? principal : sipContribution;
+       
+        String ch;
+        switch(ch)
+        	case("nipponindiasmallcap.jsp"):{
+        
         }
-
-
+        if(totalAmountInBankAccount - totalInvestedInMutualFunds < amountToInvest) {
+        	  model.addAttribute("error", "Insufficient funds in your bank account. Please add more money to proceed with the investment.");
+              return "";
+        }
+        
+        
+        boolean isFundAdded =  mutualFundInvestmentDAO.addFund(mutualFundInvestment);
         return "redirect:/home.jsp";
        
         

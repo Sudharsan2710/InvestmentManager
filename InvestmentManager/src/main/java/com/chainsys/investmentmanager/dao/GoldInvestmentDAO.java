@@ -11,5 +11,6 @@ public  interface GoldInvestmentDAO  {
 	
 	public void addGold(Gold gold);
 	public List<Gold> getGoldInvestmentsByUserId(int userId);
+	public double getTotalGoldAmountInvested(int userId); 
 			
 }
