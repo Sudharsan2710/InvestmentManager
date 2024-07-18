@@ -27,7 +27,7 @@ public class BankAccountController {
 	
 	
 	@Autowired
-	MutualFundInvestmentDAO mutualFundInvestmentDAO;
+	MutualFundInvestmentDAO  mutualFundInvestmentDAO;
 	
 	
 	@PostMapping("/BankAccount")
