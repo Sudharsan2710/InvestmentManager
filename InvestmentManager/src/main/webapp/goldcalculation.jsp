@@ -37,7 +37,7 @@
         <div class="container">
             <div class="logo">
                 <img src="./img/logo.png" alt="Logo" /> 
-                <a href="index.jsp"><h3>INVESTA</h3></a>
+                <a href="home.jsp"><h3>INVESTA</h3></a>
             </div>
 
           <div class="links">
@@ -49,7 +49,7 @@
 								<div class="dropdown-content">
 									<a href="mutualfund.jsp">Mutual Funds</a>
 									<a href="goldcalculation.jsp">Gold</a>
-									<!-- Add more dropdown items if needed -->
+									
 								</div></li>
 							<li><a href="account.jsp">Bank Account</a></li>
 							<li><a href="#"><i class="fas fa-user"></i> <%=session.getAttribute("username")%></a></li>

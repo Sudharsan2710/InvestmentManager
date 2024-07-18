@@ -16,17 +16,18 @@
 			<header>
 				<div class="container">
 					<div class="logo">
-						<img src="./img/logo.png" alt="Logo"> <a href="index.jsp"><h3>INVESTA</h3></a>
+						<img src="./img/logo.png" alt="Logo"> <a href="home.jsp"><h3>INVESTA</h3></a>
 					</div>
 					<div class="links">
 						<ul>
 							<%
 							if (session.getAttribute("username") != null) {
 							%>
-							<li class="dropdown"><input type="hidden" id="status"
+							<%-- <input type="hidden" id="status"
 								value="${param.status}"> <input type="hidden"
-								id="message" value="${param.message}"> <a href="#"
-								class="dropbtn">Services&Products</a>
+								id="message" value="${param.message}">  --%>
+							<li class="dropdown">
+								<a href="#"class="dropbtn">Services&Products</a>
 								<div class="dropdown-content">
 									<a href="mutualfund.jsp">Mutual Funds</a> <a
 										href="goldcalculation.jsp">Gold</a>

@@ -37,7 +37,8 @@ public class MutualFundInvestmentImpl implements MutualFundInvestmentDAO{
 	@Override 
 	public double getTotalMutualAmountInvestedByUserId(int userId) {
 		String query = "SELECT SUM(amount) FROM Mutual_Fund_Investments WHERE user_id = ?";
-		 return jdbcTemplate.queryForObject(query,  Double.class,new Object[]{userId});
+		Double totalAmount= jdbcTemplate.queryForObject(query, Double.class,userId);
+		 return (totalAmount != null) ? totalAmount : 0.0;
 	}
 
 

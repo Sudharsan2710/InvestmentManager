@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.chainsys.investmentmanager.dao.AccountDAO;
 import  com.chainsys.investmentmanager.dao.AccountImpl;
 import com.chainsys.investmentmanager.dao.GoldInvestmentDAO;
+import com.chainsys.investmentmanager.dao.MutualFundInvestmentDAO;
 import com.chainsys.investmentmanager.model.Gold;
 import com.chainsys.investmentmanager.model.User;
 
@@ -25,6 +26,9 @@ public class GoldController {
 	GoldInvestmentDAO goldinvestmentDAO;
 	
 	@Autowired
+	MutualFundInvestmentDAO mutualFundInvestmentDAO;
+	
+	@Autowired
 	AccountDAO accountDAO;
 	
 	@PostMapping("/goldpurchase")
@@ -35,9 +39,9 @@ public class GoldController {
             return "login.jsp";
 }	
       
-        
+        double totalAmountInvestedInMutualFund=mutualFundInvestmentDAO.getTotalMutualAmountInvestedByUserId(currentUser.getUserid());
         double totalAmountInBankAccount = accountDAO.getTotalAmountInvestedByUserId(currentUser.getUserid());
-        if (investment_amount_gold > totalAmountInBankAccount || totalAmountInBankAccount <= 0) {
+        if ((investment_amount_gold + totalAmountInvestedInMutualFund) < totalAmountInBankAccount || totalAmountInBankAccount <= 0) {
             model.addAttribute("error", "Amount in bank is not enough. Please add money.");
             return "goldcalculation.jsp";
         }

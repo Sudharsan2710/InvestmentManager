@@ -38,7 +38,9 @@ public class GoldImpl implements GoldInvestmentDAO {
 	@Override
 	public double getTotalGoldAmountInvested(int userId) {
 		 String query = "SELECT SUM(investment_amount_gold) FROM gold_investments WHERE user_id = ?";
-		 return jdbcTemplate.queryForObject(query,  Double.class,new Object[]{userId});
+		 Double totalAmount=  jdbcTemplate.queryForObject(query,  Double.class,userId);
+		 return (totalAmount != null) ? totalAmount : 0.0;
+		
 	}
 	
 }

@@ -190,7 +190,7 @@
                 <div class="container">
                     <div class="logo">
                         <img src="./img/logo.png" alt="Logo" />
-                        <a href="index.jsp"><h3>INVESTA</h3></a>
+                        <a href="home.jsp"><h3>INVESTA</h3></a>
                     </div>
                     <div class="links">
                         <ul>
@@ -240,6 +240,9 @@
                         <br><br>
                         <button type="button" onclick="calculateInvestment()">Calculate</button>
                          <button type="submit" class="invest-now-button" id="invest-now-button" style="display:none;">Invest Now</button>
+                          <% { %>
+                        <p style="color:red;"><%= request.getAttribute("error") %></p>
+                    <% } %>
                     </form>
                      
                 </div>

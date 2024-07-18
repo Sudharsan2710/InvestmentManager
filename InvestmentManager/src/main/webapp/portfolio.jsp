@@ -131,11 +131,15 @@
             <div class="container">
                 <div class="logo">
                     <img src="./img/logo.png" alt="Logo" />
-                    <a href="index.jsp"><h3>INVESTA</h3></a>
+                    <a href="home.jsp"><h3>INVESTA</h3></a>
                 </div>
                 <div class="links">
                     <ul>
-                        <li><a href="#">Services</a></li>
+                        <li class="dropdown"><a href="#" class="dropbtn">Services&Products</a>
+                        <div class="dropdown-content">
+									<a href="mutualfund.jsp">Mutual Funds</a> 
+									<a href="goldcalculation.jsp">Gold</a>
+								</div></li>
                         <li><a href="#">Bank Account</a></li>
                         <li><a href="#">Portfolio</a></li>
                         <li><a href="login.jsp" class="btn">Sign out</a></li>
